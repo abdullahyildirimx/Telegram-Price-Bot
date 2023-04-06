@@ -7,14 +7,27 @@ def handleParibu(message, resultMessage):
         lowerMessage = message.text.lower()
         upperMessage = message.text.upper()
         user_agent = 'Mozilla/5.0'
-        url = "https://v3.paribu.com/app/initials/"
+        pair = lowerMessage + "_tl"
+
+        url = "https://web.paribu.com/market/" + pair + "/latest-matches"
         headers={'User-Agent':user_agent,} 
         request=urllib.request.Request(url,None,headers)
         response = urllib.request.urlopen(request)
         data = response.read()
         output = json.loads(data)
-        pair = lowerMessage + "-tl"
+        output2 = output["payload"]
+        price = float(output2[list(output2)[0]]["price"])
+
+        url = "https://web.paribu.com/chart/history?symbol=" + pair + "&period=1D&type=basic"
+        headers={'User-Agent':user_agent,} 
+        request=urllib.request.Request(url,None,headers)
+        response = urllib.request.urlopen(request)
+        data = response.read()
+        output = json.loads(data)
+        price2 = float(output["c"][0])
+        change = 100*((price-price2)/price2)
+
         if resultMessage != "":
             resultMessage += "\n"
-        resultMessage += "Paribu -> " + upperMessage + ': ₺' + format(float(output['data']['ticker'][pair]['c'])) + "  %{:.2f}".format(float(output['data']['ticker'][pair]['p']))
+        resultMessage += "Paribu -> " + upperMessage + ': ₺' + format(price) + "  %{:.2f}".format(change)
     return resultMessage    
