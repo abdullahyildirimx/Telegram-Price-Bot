@@ -9,23 +9,14 @@ def handleParibu(message, resultMessage):
         user_agent = 'Mozilla/5.0'
         pair = lowerMessage + "_tl"
 
-        url = "https://web.paribu.com/market/" + pair + "/latest-matches"
+        url = "https://web.paribu.com/initials/ticker/extended"
         headers={'User-Agent':user_agent,} 
         request=urllib.request.Request(url,None,headers)
         response = urllib.request.urlopen(request)
         data = response.read()
         output = json.loads(data)
-        output2 = output["payload"]
-        price = float(output2[list(output2)[0]]["price"])
-
-        url = "https://web.paribu.com/chart/history?symbol=" + pair + "&period=1D&type=basic"
-        headers={'User-Agent':user_agent,} 
-        request=urllib.request.Request(url,None,headers)
-        response = urllib.request.urlopen(request)
-        data = response.read()
-        output = json.loads(data)
-        price2 = float(output["c"][0])
-        change = 100*((price-price2)/price2)
+        price = float(output["payload"][pair]["last"])
+        change = float(output["payload"][pair]["percentage"])
 
         if resultMessage != "":
             resultMessage += "\n"
