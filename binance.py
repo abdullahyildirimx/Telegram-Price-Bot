@@ -4,18 +4,14 @@ from lists import binancelist
 
 def handleBinance(message, resultMessage):
     upperMessage = message.text.upper()
-    speciallist = ["USDT", "ETHBTC", "TORN", "PIVX"]
+    speciallist = ["USDT", "ETHBTC"]
     if (upperMessage in binancelist) or (upperMessage in speciallist):
         user_agent = 'Mozilla/5.0'
         url = "https://api.binance.com/api/v3/ticker/24hr?symbol=" + upperMessage + "USDT"
         if upperMessage == "USDT":
             url = "https://api.binance.com/api/v3/ticker/24hr?symbol=" + "USDT" + "TRY"
-        if upperMessage == "PIVX":
-            url = "https://api.binance.com/api/v3/ticker/24hr?symbol=" + "PIVX" + "BTC"
         if upperMessage == "ETHBTC":
             url = "https://api.binance.com/api/v3/ticker/24hr?symbol=" + "ETH" + "BTC"
-        if upperMessage == "TORN":
-            url = "https://api.binance.com/api/v3/ticker/24hr?symbol=" + "TORN" + "BUSD"
         headers={'User-Agent':user_agent,}
         request=urllib.request.Request(url,None,headers)
         response = urllib.request.urlopen(request)
@@ -26,9 +22,6 @@ def handleBinance(message, resultMessage):
         if upperMessage == "USDT":
             symbol = "₺"
             price = format(float(output['lastPrice']))
-        elif upperMessage == "PIVX":
-            symbol = "₿"
-            price = format(int(10**8*float(output['lastPrice'])))
         elif upperMessage == "ETHBTC":
             symbol = "₿"
             price = format(float(output['lastPrice']))
@@ -66,6 +59,6 @@ def handleBinance(message, resultMessage):
         for i in range(5):
             if resultMessage != "":
                 resultMessage += "\n"
-            resultMessage += changePercentList[i][0] + ': ' + format(changePercentList[i][1]) + "  %{:.2f}".format(float(changePercentList[i][2])) + "\n"
+            resultMessage += changePercentList[i][0] + ': ' + format(changePercentList[i][1]) + "  %{:.2f}".format(float(changePercentList[i][2]))
 
     return resultMessage
