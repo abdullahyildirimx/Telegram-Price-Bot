@@ -18,16 +18,7 @@ output = json.loads(data)
 binancelist = [entry["symbol"] for entry in output if entry["symbol"].endswith("USDT") and entry["bidPrice"] != "0.00000000"]
 for i in range(0,len(binancelist)):
     binancelist[i]=binancelist[i].replace("USDT", "")
-try:
-    binancelist.pop(binancelist.index("BNBUP"))
-    binancelist.pop(binancelist.index("BNBDOWN"))
-    binancelist.pop(binancelist.index("BTCUP"))
-    binancelist.pop(binancelist.index("BTCDOWN"))
-    binancelist.pop(binancelist.index("ETHUP"))
-    binancelist.pop(binancelist.index("ETHDOWN"))
-    binancelist = sorted(binancelist)
-except:
-    pass
+binancelist = sorted(binancelist)
 
 paribulist = []
 user_agent = 'Mozilla/5.0'
