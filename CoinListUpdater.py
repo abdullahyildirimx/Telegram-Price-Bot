@@ -31,13 +31,14 @@ output = json.loads(data)
 paribulistTemp = list(output["payload"]["currencies"].keys())
 		
 for i in paribulistTemp:
-	if output["payload"]["currencies"][i]["hide_if_void"]==False:
-		paribulist.append(i.upper())
-            
-print("binancelist = ", binancelist)
-print("coingeckolist = ", coingeckolist)
-print("currencylist = ", currencylist)
-print("gaslist = ", gaslist)
-print("mexclist = ", mexclist)
-print("okxlist = ", okxlist)
-print("paribulist = ", paribulist)
+    if output["payload"]["currencies"][i]["hide_if_void"]==False:
+        paribulist.append(i.upper())
+
+with open('lists.py', 'w') as f:
+    f.write(f"binancelist = {binancelist}\n")
+    f.write(f"coingeckolist = {coingeckolist}\n")
+    f.write(f"currencylist = {currencylist}\n")
+    f.write(f"gaslist = {gaslist}\n")
+    f.write(f"mexclist = {mexclist}\n")
+    f.write(f"okxlist = {okxlist}\n")
+    f.write(f"paribulist = {paribulist}\n")
