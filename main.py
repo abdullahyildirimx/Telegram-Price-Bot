@@ -7,9 +7,7 @@ from binance import handleBinance
 from currency import handleCurrency
 from gas import handleGas
 from mexc import handleMexc
-from okx import handleOkx
 from paribu import handleParibu
-from coingecko import handleCoingecko
 
 bot = telebot.TeleBot(telegramkey)
 
@@ -24,8 +22,6 @@ def handleMessage(message):
         resultMessage = handleCurrency(message, resultMessage)
         resultMessage = handleGas(message, resultMessage)
         resultMessage = handleMexc(message, resultMessage)
-        resultMessage = handleCoingecko(message, resultMessage)
-        resultMessage = handleOkx(message, resultMessage)
         resultMessage = handleParibu(message, resultMessage)
     except:
         resultMessage = "Not available."

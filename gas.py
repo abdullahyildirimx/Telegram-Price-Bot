@@ -4,7 +4,7 @@ from lists import gaslist
 from keys import etherscankey
 
 def handleGas(message, resultMessage):
-    if message.text.upper() in gaslist:
+    if message.text.upper()=="GAS":
         upperMessage = message.text.upper()
         user_agent = 'Mozilla/5.0'
         url = "https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey=" + etherscankey

@@ -1,2 +1,2 @@
-telegramkey = 'Insert your Telegram Bot secret key'
-etherscankey = 'Insert your Etherscan API key'
+telegramkey = '5296867316:AAE7DSHb91Rr5TIXOlxv5ozFmiArhCiK6ck'
+etherscankey = '8DZQ6D7T1IZBBGPW9QVKN6YNMMSANWSM5Q'

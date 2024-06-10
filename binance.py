@@ -1,22 +1,17 @@
-import json
-import urllib.request
+import requests
 from lists import binancelist
 
 def handleBinance(message, resultMessage):
     upperMessage = message.text.upper()
     speciallist = ["USDT", "ETHBTC"]
     if (upperMessage in binancelist) or (upperMessage in speciallist):
-        user_agent = 'Mozilla/5.0'
         url = "https://api.binance.com/api/v3/ticker/24hr?symbol=" + upperMessage + "USDT"
         if upperMessage == "USDT":
             url = "https://api.binance.com/api/v3/ticker/24hr?symbol=" + "USDT" + "TRY"
         if upperMessage == "ETHBTC":
             url = "https://api.binance.com/api/v3/ticker/24hr?symbol=" + "ETH" + "BTC"
-        headers={'User-Agent':user_agent,}
-        request=urllib.request.Request(url,None,headers)
-        response = urllib.request.urlopen(request)
-        data = response.read()
-        output = json.loads(data)
+        response = requests.get(url)
+        output = response.json()
         symbol = ""
         price = ""
         if upperMessage == "USDT":
@@ -35,13 +30,9 @@ def handleBinance(message, resultMessage):
 
     if message.text.upper()=="GAINERS" or message.text.upper()=="LOSERS":
         changePercentList = []
-        user_agent = 'Mozilla/5.0'
         url = "https://api.binance.com/api/v3/ticker/24hr"
-        headers={'User-Agent':user_agent,}
-        request=urllib.request.Request(url,None,headers)
-        response = urllib.request.urlopen(request)
-        data = response.read()
-        output = json.loads(data)
+        response = requests.get(url)
+        output = response.json()
         for i in binancelist:
             upperMessage = i + "USDT"
             index = [j for j,_ in enumerate(output) if _['symbol'] == upperMessage][0]
