@@ -8,7 +8,9 @@ If you want to run it locally, you need to follow these steps.
 
 ```js
 
-pip  install  pyTelegramBotAPI
+pip install pyTelegramBotAPI
+pip install requests
+python main.py
 
 ``` 
 
