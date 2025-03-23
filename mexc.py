@@ -11,5 +11,5 @@ def handleMexc(message, resultMessage):
         if resultMessage != "":
             resultMessage += "\n"
             
-        resultMessage += "Mexc -> " + upperMessage + ': $' + format(float(output['data'][0]['last'])) + "  %{:.2f}".format(100*float(output['data'][0]['change_rate']))
+        resultMessage += "Mexc -> " + upperMessage + ': $' + format(float(output['data'][0]['last'])) + "  {:.2f}%".format(100*float(output['data'][0]['change_rate']))
     return resultMessage        

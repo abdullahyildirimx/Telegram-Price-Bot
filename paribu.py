@@ -14,5 +14,5 @@ def handleParibu(message, resultMessage):
 
         if resultMessage != "":
             resultMessage += "\n"
-        resultMessage += "Paribu -> " + upperMessage + ': ₺' + format(price) + "  %{:.2f}".format(change)
+        resultMessage += "Paribu -> " + upperMessage + ': ₺' + format(price) + "  {:.2f}%".format(change)
     return resultMessage    

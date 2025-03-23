@@ -23,7 +23,7 @@ def handleBinance(message, resultMessage):
         else:
             symbol = "$"
             price = format(float(output['lastPrice']))
-        percent = "  %{:.2f}".format(float(output['priceChangePercent']))
+        percent = "  {:.2f}%".format(float(output['priceChangePercent']))
         if resultMessage != "":
             resultMessage += "\n"
         resultMessage += "Binance -> " + upperMessage + ': ' + symbol + price + percent
@@ -50,6 +50,6 @@ def handleBinance(message, resultMessage):
         for i in range(5):
             if resultMessage != "":
                 resultMessage += "\n"
-            resultMessage += changePercentList[i][0] + ': ' + format(changePercentList[i][1]) + "  %{:.2f}".format(float(changePercentList[i][2]))
+            resultMessage += changePercentList[i][0] + ': ' + format(changePercentList[i][1]) + "  {:.2f}%".format(float(changePercentList[i][2]))
 
     return resultMessage
