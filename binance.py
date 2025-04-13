@@ -1,9 +1,17 @@
 import requests
-from lists import binancelist
 
 def handleBinance(message, resultMessage):
     upperMessage = message.text.upper()
     speciallist = ["USDT", "ETHBTC"]
+    url = "https://api.binance.com/api/v3/exchangeInfo"
+    response = requests.get(url)
+    data = response.json()
+
+    binancelist = [s["symbol"] for s in data["symbols"] if s["symbol"].endswith("USDT") and s["status"] == "TRADING"]
+    for i in range(0,len(binancelist)):
+        binancelist[i]=binancelist[i].replace("USDT", "")
+    binancelist = sorted(binancelist)
+
     if (upperMessage in binancelist) or (upperMessage in speciallist):
         url = "https://api.binance.com/api/v3/ticker/24hr?symbol=" + upperMessage + "USDT"
         if upperMessage == "USDT":
@@ -33,6 +41,12 @@ def handleBinance(message, resultMessage):
         url = "https://api.binance.com/api/v3/ticker/24hr"
         response = requests.get(url)
         output = response.json()
+
+        binancelist = [entry["symbol"] for entry in output if entry["symbol"].endswith("USDT") and entry["bidPrice"] != "0.00000000"]
+        for i in range(0,len(binancelist)):
+            binancelist[i]=binancelist[i].replace("USDT", "")
+        binancelist = sorted(binancelist)
+        
         for i in binancelist:
             upperMessage = i + "USDT"
             index = [j for j,_ in enumerate(output) if _['symbol'] == upperMessage][0]

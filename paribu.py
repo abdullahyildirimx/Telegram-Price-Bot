@@ -1,7 +1,16 @@
 import requests
-from lists import paribulist
 
 def handleParibu(message, resultMessage):
+    paribulist = []
+    url = "https://web.paribu.com/initials/config"
+    response = requests.get(url)
+    output = response.json()
+    paribulistTemp = list(output["payload"]["currencies"].keys())
+            
+    for i in paribulistTemp:
+        if output["payload"]["currencies"][i]["hide_if_void"]==False:
+            paribulist.append(i.upper())
+
     if message.text.upper() in paribulist:
         lowerMessage = message.text.lower()
         upperMessage = message.text.upper()
