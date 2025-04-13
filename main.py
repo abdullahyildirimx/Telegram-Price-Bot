@@ -16,17 +16,17 @@ def handleMessage(message):
 
     resultMessage = ""
     chat_id = message.chat.id
+    handlers = [handleBinance, handleCurrency, handleGas, handleMexc, handleParibu]
+    for handler in handlers:
+        try:
+            resultMessage = handler(message, resultMessage)
+        except Exception as e:
+            print(f"Error in {handler.__name__}: {e}")
+            continue
 
-    try:
-        resultMessage = handleBinance(message, resultMessage)
-        resultMessage = handleCurrency(message, resultMessage)
-        resultMessage = handleGas(message, resultMessage)
-        resultMessage = handleMexc(message, resultMessage)
-        resultMessage = handleParibu(message, resultMessage)
-    except:
-        resultMessage = "Not available."
-    
-    if message.text.startswith('/'):
+    if message.text.startswith('/start'):
+        resultMessage = "Write a coin or currency name without typing '/'."
+    elif message.text.startswith('/'):
         resultMessage = "Try without typing '/'."
         
     if resultMessage != "":
