@@ -4,7 +4,7 @@ from lists import mexclist
 def handleMexc(message, resultMessage):
     if message.text.upper() in mexclist:
         upperMessage = message.text.upper()
-        url = "https://api.mexc.com/api/v3/ticker/24hr?symbol=" + upperMessage + "_USDT"
+        url = "https://api.mexc.com/api/v3/ticker/24hr?symbol=" + upperMessage + "USDT"
         response = requests.get(url)
         output = response.json()
         price = format(float(output['lastPrice']))
