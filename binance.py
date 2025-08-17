@@ -1,36 +1,17 @@
 import requests
 
-def handleBinance(message, resultMessage):
+def handleBinance(message, resultMessage, binancelist):
     upperMessage = message.text.upper()
-    speciallist = ["USDT", "ETHBTC"]
-    url = "https://api.binance.com/api/v3/exchangeInfo"
-    response = requests.get(url)
-    data = response.json()
-
-    binancelist = [s["symbol"] for s in data["symbols"] if s["symbol"].endswith("USDT") and s["status"] == "TRADING"]
-    for i in range(0,len(binancelist)):
-        binancelist[i]=binancelist[i].replace("USDT", "")
-    binancelist = sorted(binancelist)
+    speciallist = ["ETHBTC"]
 
     if (upperMessage in binancelist) or (upperMessage in speciallist):
         url = "https://api.binance.com/api/v3/ticker/24hr?symbol=" + upperMessage + "USDT"
-        if upperMessage == "USDT":
-            url = "https://api.binance.com/api/v3/ticker/24hr?symbol=" + "USDT" + "TRY"
         if upperMessage == "ETHBTC":
             url = "https://api.binance.com/api/v3/ticker/24hr?symbol=" + "ETH" + "BTC"
         response = requests.get(url)
         output = response.json()
-        symbol = ""
-        price = ""
-        if upperMessage == "USDT":
-            symbol = "₺"
-            price = format(float(output['lastPrice']))
-        elif upperMessage == "ETHBTC":
-            symbol = "₿"
-            price = format(float(output['lastPrice']))
-        else:
-            symbol = "$"
-            price = format(float(output['lastPrice']))
+        symbol = "$"
+        price = format(float(output['lastPrice']))
         percent = "  {:.2f}%".format(float(output['priceChangePercent']))
         if resultMessage != "":
             resultMessage += "\n"

@@ -1,8 +1,7 @@
 import requests
-from lists import gaslist
 from keys import etherscankey
 
-def handleGas(message, resultMessage):
+def handleGas(message, resultMessage, gaslist):
     if message.text.upper() in gaslist:
         url = "https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey=" + etherscankey
         response = requests.get(url)

@@ -1,7 +1,6 @@
 import requests
-from lists import currencylist
 
-def handleCurrency(message, resultMessage):
+def handleCurrency(message, resultMessage, currencylist):
     if message.text.upper() in currencylist:
         url = "https://www.bloomberght.com/chart/ekonomi/doviz/detay/dolar"
         response = requests.get(url)

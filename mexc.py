@@ -1,7 +1,6 @@
 import requests
-from lists import mexclist
 
-def handleMexc(message, resultMessage):
+def handleMexc(message, resultMessage, mexclist):
     if message.text.upper() in mexclist:
         upperMessage = message.text.upper()
         url = "https://api.mexc.com/api/v3/ticker/24hr?symbol=" + upperMessage + "USDT"
