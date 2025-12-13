@@ -1,0 +1,1 @@
+export const BOT_TOKEN = "Insert your Telegram Bot secret key";
