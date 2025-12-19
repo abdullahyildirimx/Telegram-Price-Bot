@@ -5,7 +5,7 @@ export const handleCurrency = async (message, resultMessage, currencylist) => {
     const url = 'https://www.bloomberght.com/chart/ekonomi/doviz/detay/dolar'
 
     const res = await fetch(url)
-    if (!res.ok) throw new Error(`Request failed: ${res.status}`)
+    if (!res.ok) throw new Error(`Fetch currency price error`)
     const output = await res.json()
 
     const symbol = '₺'

@@ -4,14 +4,16 @@ import { handleBinanceTr } from './binancetr.js'
 import { handleCurrency } from './currency.js'
 import { binancelist, binancetrlist, currencylist } from './lists.js'
 
+const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms))
+
 export const telegram = async (method, payload = {}) => {
   const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/${method}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload)
   })
-  if (!res.ok) throw new Error(`Telegram API error: ${res.status}`)
-  return res.json()
+  const output = await res.json()
+  return output
 }
 
 export const sendMessage = async (chatId, text) => {
@@ -29,8 +31,6 @@ export const poll = async () => {
       timeout: 10,
       offset
     })
-
-    if (!data.ok) return
 
     for (const update of data.result) {
       offset = update.update_id + 1
@@ -66,8 +66,8 @@ export const poll = async () => {
       }
     }
   } catch (e) {
-    console.error('Polling error:', e.message)
-    restart()
+    console.error('Telegram API error:', e)
+    await sleep(2000)
   }
 }
 

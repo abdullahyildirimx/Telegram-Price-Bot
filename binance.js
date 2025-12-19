@@ -1,36 +1,37 @@
 export const handleBinance = async (message, resultMessage, binancelist) => {
   const upperMessage = message.text.toUpperCase()
-
-  if (binancelist.includes(upperMessage)) {
-    const url =`https://api.binance.com/api/v3/ticker/24hr?symbol=${upperMessage}USDT`
+  const coin = binancelist.find(item => item.name === upperMessage)
+  if (coin) {
+    const { name, digits } = coin
+    const url =`https://api.binance.com/api/v3/ticker/24hr?symbol=${name}USDT`
 
     const res = await fetch(url)
-    if (!res.ok) throw new Error(`Request failed: ${res.status}`)
+    if (!res.ok) throw new Error(`Fetch price from Binance error`)
     const output = await res.json()
 
     const symbol = '$'
-    const price = Number(output.lastPrice).toString()
+    const price = Number(output.lastPrice).toFixed(digits)
     const change = `${Number(output.priceChangePercent).toFixed(2)}%`
 
     if (resultMessage !== '') {
       resultMessage += '\n'
     }
 
-    resultMessage += `Binance -> ${upperMessage}: ${symbol}${price}  ${change}`
+    resultMessage += `Binance -> ${name}: ${symbol}${price}  ${change}`
   }
 
   if (upperMessage === 'GAINERS' || upperMessage === 'LOSERS') {
     const url =`https://api.binance.com/api/v3/ticker/24hr`
 
     const res = await fetch(url)
-    if (!res.ok) throw new Error(`Request failed: ${res.status}`)
+    if (!res.ok) throw new Error(`Fetch price from Binance error`)
     const output = await res.json()
 
     const symbol = '$'
     const changePercentList = binancelist.map(coin => {
-      const upperSymbol = coin + 'USDT'
+      const upperSymbol = coin.name + 'USDT'
       const entry = output.find(e => e.symbol === upperSymbol)
-      return [coin, Number(entry.lastPrice), Number(entry.priceChangePercent)]
+      return [coin.name, Number(entry.lastPrice).toFixed(coin.digits), Number(entry.priceChangePercent)]
     })
 
     if (upperMessage === 'GAINERS') {
@@ -42,9 +43,9 @@ export const handleBinance = async (message, resultMessage, binancelist) => {
     }
 
     for (let i = 0; i < 5; i++) {
-      const [coin, price, percent] = changePercentList[i]
+      const [name, price, percent] = changePercentList[i]
       resultMessage += '\n'
-      resultMessage += `${coin}: ${symbol}${price}  ${percent.toFixed(2)}%`
+      resultMessage += `${name}: ${symbol}${price}  ${percent.toFixed(2)}%`
     }
   }
 
