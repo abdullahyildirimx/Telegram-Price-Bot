@@ -1,4 +1,8 @@
-export const currencylist = ['DOLAR', 'USD']
+export const currencylist = {
+  dollarlist: ['DOLAR', 'DOLLAR', 'USD'],
+  goldlist: ['ALTIN', 'ALTİN', 'GOLD', 'XAU'],
+  silverlist: ['GÜMÜŞ', 'GUMUS', 'SILVER', 'XAG']
+}
 export let binancelist = []
 export let binancetrlist = []
 
